@@ -1,0 +1,31 @@
+/*
+Copyright 2016 Andrew Reese, All rights reserved.
+Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
+*/
+
+.aboutMe {
+    text-align: justify;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.header {
+    display: table;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: url(../img/bg3.jpg) no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.img-circle {
+    /*border: 10px solid rgba(51, 0, 111, 0.6);*/ /* Husky Purple */
+    min-width: 10%;
+    max-width: 15%;
+    border: 10px solid rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+}
