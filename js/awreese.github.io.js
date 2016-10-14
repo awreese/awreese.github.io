@@ -9,12 +9,12 @@
         var terminalText = document.querySelector("terminal-text");
 
         // openFile();
-        $("#terminal-text").text("loaded");
         $(document).ready(function(){
             // $("#terminal-text").load("aboutMe.txt");
             // $("#terminal-text").text("loaded");
             $.get("aboutMe.txt", null, function(data, status) {
-                alert("data: " + data);
+                // alert("data: " + data);
+                $("#terminal-text").text(data);
             }, "text");
         });
     };
