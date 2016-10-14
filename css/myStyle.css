@@ -5,9 +5,46 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
 
 .aboutMe {
     text-align: justify;
-    margin-left: auto;
+    /*margin-left: auto;
     margin-right: auto;
-    width: 60%;
+    width: 70%;*/
+}
+
+.terminal {
+    background-color: rgba(0, 0, 0, 0.8);
+    /*color: rgb(13,200, 50);*/
+    color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-radius: 30px;
+}
+
+.t-prompt {
+    /*font-family: courier;*/
+    font-family: monospace;
+}
+
+.pulsate {
+    -webkit-animation: pulsate 1s ease-out;
+    -webkit-animation-iteration-count: infinite; 
+    /*opacity: 0.5;*/
+}
+
+@-webkit-keyframes pulsate {
+    0% { 
+        opacity: 0.0;
+    }
+    25% { 
+        opacity: 1.0;
+    }
+    75% { 
+        opacity: 1.0;
+    }
+    100% { 
+        opacity: 0.0;
+    }
 }
 
 .header {
@@ -22,7 +59,7 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
     -o-background-size: cover;
 }
 
-.img-circle {
+.img-portrait {
     /*border: 10px solid rgba(51, 0, 111, 0.6);*/ /* Husky Purple */
     min-width: 10%;
     max-width: 15%;
