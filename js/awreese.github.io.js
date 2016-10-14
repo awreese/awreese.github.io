@@ -11,35 +11,40 @@
     // loads webpage functions
     window.onload = function () {
 
-        loadTerminal(ABOUTME);
+        // loadTerminal(ABOUTME);
+        $.get(ABOUTME, loadTerminal(ABOUTME), "text"); // Asynch call!
 
     };
 
     function loadTerminal(dataFile) {
-        console.log("cat " + dataFile);
 
-        $(TERMINAL).empty();
-        $(TERMINAL).append(prompt("cat " + dataFile));
+        return function(data) {
+            console.log("cat " + dataFile);
 
-        $(document).ready(function() {
-            $.get(dataFile, null, function(data) {
+            $(TERMINAL).empty();
+            $(TERMINAL).append(prompt("cat " + dataFile));
 
-                var paragraphs = data.split('\n');
-                
-                for (var i = 0; i < paragraphs.length; i++) {
-                    console.log(paragraphs[i]);
-                    $(TERMINAL).append(paragraph(paragraphs[i]));
-                }
+            // $(document).ready(function() {
+                // $.get(dataFile, function(data) {
 
-                // data.split('\n').forEach(function(p) {
-                //     console.log(p);
-                //     $(TERMINAL).append(new paragraph(p));
+                    // var paragraphs = this.split('\n');
+                    
+                    // for (var i = 0; i < paragraphs.length; i++) {
+                    //     console.log(paragraphs[i]);
+                    //     $(TERMINAL).append(paragraph(paragraphs[i]));
+                    // }
+
+                    data.split('\n').forEach(function(p) {
+                        console.log(p);
+                        $(TERMINAL).append(new paragraph(p));
+                    });
+
                 // });
+            // });
 
-            });
-        });
+            $(TERMINAL).append(prompt());
+        }
 
-        $(TERMINAL).append(prompt());
     }
 
     function prompt(command) {
