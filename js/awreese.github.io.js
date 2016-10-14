@@ -21,7 +21,7 @@
                     aboutMeText += "<p>" + lines[i] + "</p>";
                 }
 
-                $("#terminal-text").text(aboutMeText);
+                $("#terminal-text").innerHTML(aboutMeText);
             }, "text");
         });
     };
