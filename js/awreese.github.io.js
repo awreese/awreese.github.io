@@ -18,32 +18,28 @@
     function loadTerminal(dataFile) {
         console.log("cat " + dataFile);
 
-        
+        $(TERMINAL).empty();
+        $(TERMINAL).append(new prompt("cat " + dataFile));
 
         $(document).ready(function() {
-
-            $(TERMINAL).empty();
-            $(TERMINAL).append(new prompt("cat " + dataFile));
-
             $.get(dataFile, null, function(data) {
 
-                // var paragraphs = data.split('\n');
+                var paragraphs = data.split('\n');
                 
-                // for (var i = 0; i < paragraphs.length; i++) {
-                //     console.log(paragraphs[i]);
-                //     $(TERMINAL).append(new paragraph(paragraphs[i]));
-                // }
+                for (var i = 0; i < paragraphs.length; i++) {
+                    console.log(paragraphs[i]);
+                    $(TERMINAL).append(new paragraph(paragraphs[i]));
+                }
 
-                data.split('\n').forEach(function(p) {
-                    console.log(p);
-                    $(TERMINAL).append(new paragraph(p));
-                });
+                // data.split('\n').forEach(function(p) {
+                //     console.log(p);
+                //     $(TERMINAL).append(new paragraph(p));
+                // });
 
             });
-
-            $(TERMINAL).append(new prompt());
         });
-        
+
+        $(TERMINAL).append(new prompt());
     }
 
     function prompt(command) {
