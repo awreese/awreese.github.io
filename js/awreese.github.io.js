@@ -13,8 +13,15 @@
             // $("#terminal-text").load("aboutMe.txt");
             // $("#terminal-text").text("loaded");
             $.get("aboutMe.txt", null, function(data, status) {
-                // alert("data: " + data);
-                $("#terminal-text").text(data);
+                // $("#terminal-text").text(data);
+                var lines = data.split('\n');
+                var aboutMeText = "";
+
+                for (var i = 0; i < lines.length; i++) {
+                    aboutMeText += "<p>" + lines[i] + "</p>";
+                }
+
+                $("#terminal-text").text(aboutMeText);
             }, "text");
         });
     };
