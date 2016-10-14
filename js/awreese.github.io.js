@@ -19,7 +19,7 @@
         console.log("cat " + dataFile);
 
         $(TERMINAL).empty();
-        $(TERMINAL).append(new prompt("cat " + dataFile));
+        $(TERMINAL).append(prompt("cat " + dataFile));
 
         $(document).ready(function() {
             $.get(dataFile, null, function(data) {
@@ -28,7 +28,7 @@
                 
                 for (var i = 0; i < paragraphs.length; i++) {
                     console.log(paragraphs[i]);
-                    $(TERMINAL).append(new paragraph(paragraphs[i]));
+                    $(TERMINAL).append(paragraph(paragraphs[i]));
                 }
 
                 // data.split('\n').forEach(function(p) {
@@ -39,7 +39,7 @@
             });
         });
 
-        $(TERMINAL).append(new prompt());
+        $(TERMINAL).append(prompt());
     }
 
     function prompt(command) {
@@ -49,7 +49,7 @@
             $prompt.text(PROMPTSTRING + command);
         } else {
             $prompt.text(PROMPTSTRING);
-            $prompt.append(new cursor());
+            $prompt.append(cursor());
         }
         return $prompt;
     }
