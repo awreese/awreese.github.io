@@ -48,9 +48,9 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
         var $prompt = new paragraph();
         $prompt.addClass(PROMPT_CLASS);
         if (command) {
-            $prompt.text(PROMPTSTRING + command);
+            $prompt.text(PROMPT_STRING + command);
         } else {
-            $prompt.text(PROMPTSTRING);
+            $prompt.text(PROMPT_STRING);
             $prompt.append(new cursor());
         }
         return $prompt;
