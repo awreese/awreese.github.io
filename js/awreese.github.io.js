@@ -18,10 +18,13 @@
     function loadTerminal(dataFile) {
         console.log("cat " + dataFile);
 
-        $(TERMINAL).empty();
-        $(TERMINAL).append(new prompt("cat " + dataFile));
+        
 
         $(document).ready(function() {
+
+            $(TERMINAL).empty();
+            $(TERMINAL).append(new prompt("cat " + dataFile));
+
             $.get(dataFile, null, function(data) {
 
                 // var paragraphs = data.split('\n');
@@ -37,9 +40,10 @@
                 });
 
             });
-        });
 
-        $(TERMINAL).append(new prompt());
+            $(TERMINAL).append(new prompt());
+        });
+        
     }
 
     function prompt(command) {
