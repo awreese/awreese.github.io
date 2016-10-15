@@ -199,11 +199,19 @@ hr.small {
 }
 
 .portfolio-item {
+    height: 400px;
     margin-bottom: 30px;
 }
 
+.portfolio-text {
+    font-size: 18px;
+}
+
 .img-portfolio {
-    margin: 0 auto;
+    height: 70%;
+    width: 100%;
+    object-fit: cover;
+    margin: 0 auto 15px;
 }
 
 .img-portfolio:hover {
