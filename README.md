@@ -1,3 +1,11 @@
+# My personal project landing page
+
+A central place for me to express a little of who I am and post some of my significant projects.
+
+## Copyright and License
+
+Copyright 2016 Drew Reese
+
 # [Start Bootstrap](http://startbootstrap.com/) - [Stylish Portfolio](http://startbootstrap.com/template-overviews/stylish-portfolio/)
 
 [Stylish Portfolio](http://startbootstrap.com/template-overviews/stylish-portfolio/) is a responsive, one page portfolio theme for [Bootstrap](http://getbootstrap.com/) created by [Start Bootstrap](http://startbootstrap.com/). The theme features multiple content sections with an off canvas navigation menu.
