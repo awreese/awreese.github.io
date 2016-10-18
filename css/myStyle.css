@@ -65,3 +65,7 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
     border: 10px solid rgba(0, 0, 0, 0.4);
     border-radius: 50%;
 }
+
+.fa-trophy {
+    color: gold;
+}
