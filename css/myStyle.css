@@ -29,7 +29,6 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
 .pulsate {
     -webkit-animation: pulsate 1s ease-out;
     -webkit-animation-iteration-count: infinite; 
-    /*opacity: 0.5;*/
 }
 
 @-webkit-keyframes pulsate {
@@ -61,8 +60,8 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
 
 .img-portrait {
     /*border: 10px solid rgba(51, 0, 111, 0.6);*/ /* Husky Purple */
-    min-width: 10%;
-    max-width: 15%;
+    /*min-width: 10%;*/
+    /*max-width: 15%;*/
     border: 10px solid rgba(0, 0, 0, 0.4);
     border-radius: 50%;
 }
