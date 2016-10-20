@@ -6,16 +6,20 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
 (function () {
     "use strict";
 
-    var ABOUTME       = "aboutMe.txt";
-    var TERMINAL      = "#terminal1";
+    const ABOUTME       = "aboutMe.txt";
+    const TERMINAL      = "#terminal1";
     
-    var PROMPT_CLASS  = "t-prompt";
-    var PROMPT_STRING  = "drew@github:~$ ";
+    const PROMPT_CLASS  = "t-prompt";
+    const PROMPT_STRING  = "drew@github:~$ ";
+
+    const TIMEOUT_EXECUTE = 500;    // 0.5 seconds
+    const TIMEOUT_COMMAND = 30000;  //  30 seconds
+    const TIMEOUT_CLEAR   = 3000;   //   3 seconds
 
     var text;
     var outputedToConsole = false;
 
-    var DEBUG = false;
+    const DEBUG = false;
     
     // loads webpage functions
     window.onload = function () {
@@ -28,11 +32,6 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
             $.get(ABOUTME, loadData, "text"); // Asynch call!
         }
         
-        // loadAboutMe(TERMINAL, ["cat tax.???", "cat text.txt"], text);
-
-        // $.get(ABOUTME, loadAboutMe(TERMINAL, CAT, ABOUTME), "text"); // Asynch call!
-        // $.get(ABOUTME, loadData, "text"); // Asynch call!
-
     };
 
     function loadData(data) {
@@ -43,30 +42,6 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
     /*
     Loads specified terminal with about me file output.
     */
-    // function loadAboutMe(terminal, command, text) {
-
-    //     return function(data) {
-    //         console.log(command);
-
-    //         var $window = $(terminal).find(".terminal-window");
-
-    //         // $(terminal).empty();
-    //         // $(terminal).append(new prompt(command));
-    //         $window.empty();
-    //         $window.append(new prompt(command + " " + text));
-
-    //         data.split('\n').forEach(function(p) {
-    //             console.log(p);
-    //             // $(terminal).append(new paragraph(p));
-    //             $window.append(new paragraph(p));
-    //         });
-
-    //         // $(terminal).append(new prompt());
-    //         $window.append(new prompt());
-    //     }
-
-    // }
-
     function loadAboutMe(terminal, command, text) {
         if (!outputedToConsole) {
             console.log(command);
@@ -102,7 +77,7 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
         $window.find(".typed-cursor").remove();
 
         // execute callback after brief pause
-        setTimeout(callback, 1000);
+        setTimeout(callback, TIMEOUT_EXECUTE);
     }
 
     function displayText($window, command, text) {
@@ -118,7 +93,7 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
         var clearCom   = function() { clearText( $window, command, text); }
         var executeCom = function() { executeCommand( $window, clearCom); }
         
-        displayCommand($window, ["clear"], 5000, executeCom);
+        displayCommand($window, ["clear"], TIMEOUT_COMMAND, executeCom);
 
     }
 
@@ -128,13 +103,12 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
         var displayCom = function() { displayText($window, command, text); }
         var executeCom = function() { executeCommand( $window, displayCom); }
 
-        displayCommand($window, command, 3000, executeCom);
+        displayCommand($window, command, TIMEOUT_CLEAR, executeCom);
     }
 
     // Returns BASH prompt for which typing script can attach commands to
     function prompt() {
         var $prompt = new paragraph();
-        $prompt.addClass(PROMPT_CLASS);
 
         $prompt.text(PROMPT_STRING);
         $prompt.append($('<span class="element"></span>'));
