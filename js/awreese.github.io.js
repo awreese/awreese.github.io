@@ -15,7 +15,7 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
     var text;
     var outputedToConsole = false;
 
-    var DEBUG = true;
+    var DEBUG = false;
     
     // loads webpage functions
     window.onload = function () {
