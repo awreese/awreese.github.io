@@ -8,16 +8,19 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
 
     const ABOUTME       = "aboutMe.txt";
     const TERMINAL      = "#terminal1";
-    
-    const PROMPT_CLASS  = "t-prompt";
     const PROMPT_STRING  = "drew@github:~$ ";
 
-    const TIMEOUT_EXECUTE = 500;    // 0.5 seconds
-    const TIMEOUT_COMMAND = 30000;  //  30 seconds
-    const TIMEOUT_CLEAR   = 3000;   //   3 seconds
+    // Script timing constants
+    const TIMEOUT_EXECUTE = 4000;   //   4 seconds - wait this long after typing command before executing
+    const TIMEOUT_PROCESS = 500;    // 0.5 seconds - time to show "processing"
+    const TIMEOUT_COMMAND = 3000;   //   3 seconds - wait this long before typing command
+    const TIMEOUT_CLEAR   = 60000;  //  60 seconds - wait this long before clearing
+
+    var loop = true;
 
     var text;
     var outputedToConsole = false;
+    var commands = ["whoami?", "finger drew", "cat " + ABOUTME];
 
     const DEBUG = false;
     
@@ -27,37 +30,102 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
         // used when testing/debugging on local machine
         if (DEBUG) {
             text = ["paragraph1", "paragraph2", "paragraph3"];
-            loadAboutMe(TERMINAL, ["whoami", "finger drew", "cat " + ABOUTME], text);
+            loadTerminal(TERMINAL, commands);
         } else {
-            $.get(ABOUTME, loadData, "text"); // Asynch call!
+            $.get(ABOUTME, loadData_cb, "text"); // Asynch call!
         }
         
     };
 
-    function loadData(data) {
+    /*
+    Callback parses retrieved data into array of text paragraphs and loads terminal.
+    */
+    function loadData_cb(data) {
         text = data.split('\n');
-        loadAboutMe(TERMINAL, ["whoami", "finger drew", "cat " + ABOUTME], text);
+        loadTerminal(TERMINAL, commands);
     }
 
     /*
-    Loads specified terminal with about me file output.
+    Loads specified terminal with specified command and text.
     */
-    function loadAboutMe(terminal, command, text) {
-        if (!outputedToConsole) {
-            console.log(command);
-        }
-
+    function loadTerminal(terminal, command) {
         var $window = $(terminal).find(".terminal-window");
-
-        clearText($window, command, text);
-        outputedToConsole = true;
+        clearText_cb($window, command);
+    }
+    
+    /*
+    Executes callback function after brief timeout.
+    This is to make a pause before actually entering a terminal command.
+    */
+    function executeCommand_cb($window, callback) {
+        // execute callback function after brief pause
+        setTimeout(callback, TIMEOUT_EXECUTE);
     }
 
+    /*
+    Process callback function after brief timeout.
+    This is mostly for aesthetic purposes so it "appears" like the terminal actually had to "process" a command.
+    */
+    function processCommand_cb($window, callback) {
+        // remove cursor from last command
+        $window.find(".typed-cursor").remove();
+
+        setTimeout(callback, TIMEOUT_PROCESS);
+    }
+
+    /*
+    Loads specified terminal with specified command global text.
+    */
+    function displayText_cb($window, command) {
+        if (!outputedToConsole) {
+            console.log(command[command.length - 1]);
+        }
+
+        text.forEach(function(p) {
+            if (!outputedToConsole) {
+                console.log(p);
+            }
+            $window.append(new paragraph(p));
+        });
+        outputedToConsole = true;
+        
+        if (loop) {
+            var clearCom   = function() { clearText_cb( $window, command); }
+            // var processCom = function() { processCommand_cb($window, clearCom); }
+            var executeCom = function() { processCommand_cb( $window, clearCom); }
+
+            displayCommand($window, ["clear"], TIMEOUT_CLEAR, executeCom);
+        } else {
+            displayCommand($window, [""], TIMEOUT_CLEAR, $.noop);
+        }
+
+    }
+
+    /*
+    Clears specified terminal with specified command and text.
+    */
+    function clearText_cb($window, command) {
+        $window.empty();
+
+        var displayCom = function() { displayText_cb($window, command); }
+        var processCom = function() { processCommand_cb( $window, displayCom); }
+        var executeCom = function() { executeCommand_cb( $window, processCom); }
+
+        displayCommand($window, command, TIMEOUT_COMMAND, executeCom);
+    }
+
+    /*
+    Types commands to specified window and calls callback function.
+    
+    Uses Matt Boldt's "typed.js" script to do the heavy lifting of typing.
+        source: http://www.mattboldt.com/demos/typed-js/
+
+    */
     function displayCommand($window, command, delay, callback) {
         var $prompt = new prompt();
         $window.append($prompt);
         $(function(){
-            $prompt.find(".element").typed({
+            $prompt.find(".bash-element").typed({
                 // defaults
                 cursorChar: "_",
                 typeSpeed: 60,
@@ -72,46 +140,12 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
         });
     }
 
-    function executeCommand($window, callback) {
-        // remove cursor from last command
-        $window.find(".typed-cursor").remove();
-
-        // execute callback after brief pause
-        setTimeout(callback, TIMEOUT_EXECUTE);
-    }
-
-    function displayText($window, command, text) {
-        $window.find(".typed-cursor").remove();
-
-        text.forEach(function(p) {
-            if (!outputedToConsole) {
-                console.log(p);
-            }
-            $window.append(new paragraph(p));
-        });
-
-        var clearCom   = function() { clearText( $window, command, text); }
-        var executeCom = function() { executeCommand( $window, clearCom); }
-        
-        displayCommand($window, ["clear"], TIMEOUT_COMMAND, executeCom);
-
-    }
-
-    function clearText($window, command, text) {
-        $window.empty();
-
-        var displayCom = function() { displayText($window, command, text); }
-        var executeCom = function() { executeCommand( $window, displayCom); }
-
-        displayCommand($window, command, TIMEOUT_CLEAR, executeCom);
-    }
-
     // Returns BASH prompt for which typing script can attach commands to
     function prompt() {
         var $prompt = new paragraph();
 
         $prompt.text(PROMPT_STRING);
-        $prompt.append($('<span class="element"></span>'));
+        $prompt.append($('<span class="bash-element"></span>'));
         
         return $prompt;
     }
