@@ -31,6 +31,17 @@
     <!-- My personal custom CSS -->
     <link href="css/myStyle.css" rel="stylesheet">
 
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/typed.js"></script>
+
+    <!-- awreese.github.io JavaScript -->
+    <script type="text/javascript" src="js/awreese.github.io.js"></script>
+
 </head>
 
 <body>
@@ -76,8 +87,14 @@
                 <div class="col-lg-12 text-center">
                     <h2>About Me</h2>
                     <hr class="small">
-                    <div class="lead aboutMe terminal">
-                        <!-- terminal is loaded from file :) -->
+                    <div class="lead aboutMe">
+                        <div id="terminal1" class="terminal">
+                            <div class="terminal-top">terminal</div>
+                            <div class="terminal-window">
+                                empty terminal text here
+                                <!-- terminal is loaded from file :) -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -94,7 +111,7 @@
                     <h2>My Work</h2>
                     <hr class="small">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 outline">
                             <div class="portfolio-item">
                                 <a href="https://github.com/awreese/GraphADT">
                                     <img class="img-portfolio img-responsive" src="img/graph.png">
@@ -102,7 +119,15 @@
                                 <p class="portfolio-text">Re-implementation of a GraphADT from a class project.  I more or less tried to improve upon what I felt could have been implemented better had I not had an acedemic deadline.</p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 outline">
+                            <div class="portfolio-item">
+                                <a href="https://courses.cs.washington.edu/courses/cse481v/16sp/home.php?mode=off">
+                                    <img class="img-portfolio img-responsive" src="img/hololens.png">
+                                </a>
+                                <p class="portfolio-text">Teaching assistant for the very first Virtual/Augmented Reality Capstone course offered at UW.  I was charged with designing and maintaining the course website in addition to normal TA duties.<br/><a href="https://courses.cs.washington.edu/courses/cse481v/16sp/home.php?mode=matrix">Wow Factor!</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 outline">
                             <div class="portfolio-item">
                                 <a href="https://github.com/awreese/DataStructures">
                                     <img class="img-portfolio img-responsive" src="img/java-collection.jpg">
@@ -110,7 +135,7 @@
                                 <p class="portfolio-text">My personal project for implementing more complex structures than those currently provided by the Java Collection framework.  Current top-level of this project includes an extended hash-folder hashcode class, traversable/traverser interfaces, and a tree collection.</p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 outline">
                             <div class="portfolio-item">
                                 <a href="/fifteen-puzzle">
                                     <img class="img-portfolio img-responsive" src="img/fifteen-puzzle.jpg">
@@ -118,7 +143,7 @@
                                 <p class="portfolio-text">Classic tile sliding puzzle game.  Written using javascript and CSS.  See if you can beat your high-score!</p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 outline">
                             <div class="portfolio-item">
                                 <a href="graphicsProject.html">
                                     <img class="img-portfolio img-responsive" src="img/graphics-animator-project.png">
@@ -201,15 +226,6 @@
         </div>
         <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
     </footer>
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- awreese.github.io JavaScript -->
-    <script type="text/javascript" src="js/awreese.github.io.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script>

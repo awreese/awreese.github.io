@@ -7,61 +7,139 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
     "use strict";
 
     var ABOUTME       = "aboutMe.txt";
-    var TERMINAL      = ".terminal";
-    var CAT           = "cat ";
+    var TERMINAL      = "#terminal1";
     
     var PROMPT_CLASS  = "t-prompt";
-    var PULSATE_CLASS = "pulsate";
-
     var PROMPT_STRING  = "drew@github:~$ ";
 
+    var text;
+    var outputedToConsole = false;
+
+    var DEBUG = true;
+    
     // loads webpage functions
     window.onload = function () {
 
-        $.get(ABOUTME, loadAboutMe(TERMINAL, CAT + ABOUTME), "text"); // Asynch call!
+        // used when testing/debugging on local machine
+        if (DEBUG) {
+            text = ["paragraph1", "paragraph2", "paragraph3"];
+            loadAboutMe(TERMINAL, ["whoami", "finger drew", "cat " + ABOUTME], text);
+        } else {
+            $.get(ABOUTME, loadData, "text"); // Asynch call!
+        }
+        
+        // loadAboutMe(TERMINAL, ["cat tax.???", "cat text.txt"], text);
+
+        // $.get(ABOUTME, loadAboutMe(TERMINAL, CAT, ABOUTME), "text"); // Asynch call!
+        // $.get(ABOUTME, loadData, "text"); // Asynch call!
 
     };
+
+    function loadData(data) {
+        text = data.split('\n');
+        loadAboutMe(TERMINAL, ["whoami", "finger drew", "cat " + ABOUTME], text);
+    }
 
     /*
     Loads specified terminal with about me file output.
     */
-    function loadAboutMe(terminal, command) {
+    // function loadAboutMe(terminal, command, text) {
 
-        return function(data) {
+    //     return function(data) {
+    //         console.log(command);
+
+    //         var $window = $(terminal).find(".terminal-window");
+
+    //         // $(terminal).empty();
+    //         // $(terminal).append(new prompt(command));
+    //         $window.empty();
+    //         $window.append(new prompt(command + " " + text));
+
+    //         data.split('\n').forEach(function(p) {
+    //             console.log(p);
+    //             // $(terminal).append(new paragraph(p));
+    //             $window.append(new paragraph(p));
+    //         });
+
+    //         // $(terminal).append(new prompt());
+    //         $window.append(new prompt());
+    //     }
+
+    // }
+
+    function loadAboutMe(terminal, command, text) {
+        if (!outputedToConsole) {
             console.log(command);
-
-            $(terminal).empty();
-            $(terminal).append(new prompt(command));
-
-            data.split('\n').forEach(function(p) {
-                console.log(p);
-                $(terminal).append(new paragraph(p));
-            });
-
-            $(terminal).append(new prompt());
         }
+
+        var $window = $(terminal).find(".terminal-window");
+
+        clearText($window, command, text);
+        outputedToConsole = true;
+    }
+
+    function displayCommand($window, command, delay, callback) {
+        var $prompt = new prompt();
+        $window.append($prompt);
+        $(function(){
+            $prompt.find(".element").typed({
+                // defaults
+                cursorChar: "_",
+                typeSpeed: 60,
+                backSpeed: 30,
+                backDelay: 2000,
+
+                // user defined parameters
+                strings: command,
+                startDelay: delay,
+                callback: callback
+            });
+        });
+    }
+
+    function executeCommand($window, callback) {
+        // remove cursor from last command
+        $window.find(".typed-cursor").remove();
+
+        // execute callback after brief pause
+        setTimeout(callback, 1000);
+    }
+
+    function displayText($window, command, text) {
+        $window.find(".typed-cursor").remove();
+
+        text.forEach(function(p) {
+            if (!outputedToConsole) {
+                console.log(p);
+            }
+            $window.append(new paragraph(p));
+        });
+
+        var clearCom   = function() { clearText( $window, command, text); }
+        var executeCom = function() { executeCommand( $window, clearCom); }
+        
+        displayCommand($window, ["clear"], 5000, executeCom);
 
     }
 
-    // Returns BASH prompt with specified command, or cursor if not provided
-    function prompt(command) {
+    function clearText($window, command, text) {
+        $window.empty();
+
+        var displayCom = function() { displayText($window, command, text); }
+        var executeCom = function() { executeCommand( $window, displayCom); }
+
+        displayCommand($window, command, 3000, executeCom);
+    }
+
+    // Returns BASH prompt for which typing script can attach commands to
+    function prompt() {
         var $prompt = new paragraph();
         $prompt.addClass(PROMPT_CLASS);
-        if (command) {
-            $prompt.text(PROMPT_STRING + command);
-        } else {
-            $prompt.text(PROMPT_STRING);
-            $prompt.append(new cursor());
-        }
-        return $prompt;
-    }
 
-    // Returns pulsing cursor for BASH prompt
-    function cursor() {
-        var $cursor = $('<span></span>');
-        $cursor.addClass(PULSATE_CLASS);
-        $cursor.text('_');
-        return $cursor;
+        $prompt.text(PROMPT_STRING);
+        $prompt.append($('<span class="element"></span>'));
+        
+        return $prompt;
     }
 
     // Returns paragraph html element containing specified text
