@@ -10,11 +10,19 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
     const TERMINAL      = "#terminal1";
     const PROMPT_STRING  = "drew@github:~$ ";
 
-    // Script timing constants
-    const TIMEOUT_EXECUTE = 4000;   //   4 seconds - wait this long after typing command before executing
-    const TIMEOUT_PROCESS = 500;    // 0.5 seconds - time to show "processing"
-    const TIMEOUT_COMMAND = 3000;   //   3 seconds - wait this long before typing command
-    const TIMEOUT_CLEAR   = 60000;  //  60 seconds - wait this long before clearing
+    const DEBUG = false;
+
+    // Testing script timing constants
+    // const DELAY_EXECUTE = 2000;   // Delay (ms) before executing command
+    // const DELAY_PROCESS = 500;    // Delay (ms) to show "processing" of command
+    // const DELAY_COMMAND = 1000;   // Delay (ms) before typing commands
+    // const DELAY_CLEAR   = 6000;   // Delay (ms) before clearing terminal
+
+    // Normal script timing constants
+    const DELAY_EXECUTE = 2000;   // Delay (ms) before executing command
+    const DELAY_PROCESS = 500;    // Delay (ms) to show "processing" of command
+    const DELAY_COMMAND = 3000;   // Delay (ms) before typing commands
+    const DELAY_CLEAR   = 60000;  // Delay (ms) before clearing terminal
 
     var loop = true;
 
@@ -22,10 +30,21 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
     var outputedToConsole = false;
     var commands = ["whoami?", "finger drew", "cat " + ABOUTME];
 
-    const DEBUG = false;
+    // var keySound1;
+
+    // function preload() {
+    //     keySound1 = loadSound('sound/keyboard_key1.mp3');
+
+    // }
+
+    // function setup() {
+
+    // }
     
     // loads webpage functions
     window.onload = function () {
+
+        // setup(); // ensures sounds are loaded!
 
         // used when testing/debugging on local machine
         if (DEBUG) {
@@ -34,8 +53,12 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
         } else {
             $.get(ABOUTME, loadData_cb, "text"); // Asynch call!
         }
-        
+
     };
+
+    function keyHit_cb() {
+        keySound1.play();
+    }
 
     /*
     Callback parses retrieved data into array of text paragraphs and loads terminal.
@@ -59,7 +82,7 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
     */
     function executeCommand_cb($window, callback) {
         // execute callback function after brief pause
-        setTimeout(callback, TIMEOUT_EXECUTE);
+        setTimeout(callback, DELAY_EXECUTE);
     }
 
     /*
@@ -70,7 +93,7 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
         // remove cursor from last command
         $window.find(".typed-cursor").remove();
 
-        setTimeout(callback, TIMEOUT_PROCESS);
+        setTimeout(callback, DELAY_PROCESS);
     }
 
     /*
@@ -94,9 +117,9 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
             // var processCom = function() { processCommand_cb($window, clearCom); }
             var executeCom = function() { processCommand_cb( $window, clearCom); }
 
-            displayCommand($window, ["clear"], TIMEOUT_CLEAR, executeCom);
+            displayCommand($window, ["clear"], DELAY_CLEAR, executeCom);
         } else {
-            displayCommand($window, [""], TIMEOUT_CLEAR, $.noop);
+            displayCommand($window, [""], DELAY_CLEAR, $.noop);
         }
 
     }
@@ -111,7 +134,7 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
         var processCom = function() { processCommand_cb( $window, displayCom); }
         var executeCom = function() { executeCommand_cb( $window, processCom); }
 
-        displayCommand($window, command, TIMEOUT_COMMAND, executeCom);
+        displayCommand($window, command, DELAY_COMMAND, executeCom);
     }
 
     /*
@@ -131,11 +154,12 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
                 typeSpeed: 60,
                 backSpeed: 30,
                 backDelay: 2000,
+                onKeyStroke: keyHit_cb,
 
                 // user defined parameters
                 strings: command,
                 startDelay: delay,
-                callback: callback
+                callback: callback,
             });
         });
     }

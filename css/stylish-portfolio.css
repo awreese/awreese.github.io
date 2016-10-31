@@ -209,7 +209,7 @@ hr.small {
 
 .img-portfolio {
     height: 70%;
-    width: 100%;
+    width: auto;
     object-fit: cover;
     margin: 0 auto 15px;
 }
