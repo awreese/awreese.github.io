@@ -112,6 +112,10 @@ Licensed under GNU GPL (https://www.gnu.org/licenses/licenses.html).
     background: linear-gradient(to right, gray 0%, silver 10%, GhostWhite 30%, GhostWhite 70%, silver 90%, gray 100%);
 }
 
+.portfolio-text {
+    padding: 0px 0.5em;
+}
+
 .outline {
     border: 0.5px solid transparent;
 }
