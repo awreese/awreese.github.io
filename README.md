@@ -4,7 +4,7 @@ A central place for me to express a little of who I am and post some of my signi
 
 ## Copyright and License
 
-Copyright 2016 Drew Reese
+Copyright 2016-21017Drew Reese
 
 # [Start Bootstrap](http://startbootstrap.com/) - [Stylish Portfolio](http://startbootstrap.com/template-overviews/stylish-portfolio/)
 
